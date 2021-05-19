@@ -5,14 +5,14 @@ You should now be able to create sealed secrets.
 
 GOOS=$(go env GOOS)
 GOARCH=$(go env GOARCH)
-wget https://github.com/bitnami-labs/sealed-secrets/releases/download/{{ .Values.image.tag }}/kubeseal-$GOOS-$GOARCH
-sudo install -m 755 kubeseal-$GOOS-$GOARCH /usr/local/bin/kubeseal
+wget https://github.com/bitnami-labs/sealed-secrets/releases/download/{{ .Values.image.tag }}/kubeseal2-$GOOS-$GOARCH
+sudo install -m 755 kubeseal2-$GOOS-$GOARCH /usr/local/bin/kubeseal2
 
 2. Create a sealed secret file
 
 # note the use of `--dry-run` - this does not create a secret in your cluster
 kubectl create secret generic secret-name --dry-run --from-literal=foo=bar -o [json|yaml] | \
- kubeseal \
+ kubeseal2 \
  --controller-name={{ template "sealed-secrets.fullname" . }} \
  --controller-namespace={{ .Release.Namespace }} \
  --format [json|yaml] > mysealedsecret.[json|yaml]
@@ -21,15 +21,15 @@ The file mysealedsecret.[json|yaml] is a commitable file.
 
 If you would rather not need access to the cluster to generate the sealed secret you can run
 
-kubeseal \
+kubeseal2 \
  --controller-name={{ template "sealed-secrets.fullname" . }} \
  --controller-namespace={{ .Release.Namespace }} \
  --fetch-cert > mycert.pem
 
-to retrieve the public cert used for encryption and store it locally. You can then run 'kubeseal --cert mycert.pem' instead to use the local cert e.g.
+to retrieve the public cert used for encryption and store it locally. You can then run 'kubeseal2 --cert mycert.pem' instead to use the local cert e.g.
 
 kubectl create secret generic secret-name --dry-run --from-literal=foo=bar -o [json|yaml] | \
-kubeseal \
+kubeseal2 \
  --controller-name={{ template "sealed-secrets.fullname" . }} \
  --controller-namespace={{ .Release.Namespace }} \
  --format [json|yaml] --cert mycert.pem > mysealedsecret.[json|yaml]

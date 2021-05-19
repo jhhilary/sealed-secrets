@@ -40,7 +40,7 @@ endif
 
 GO_LD_FLAGS = -X main.VERSION=$(VERSION)
 
-all: controller kubeseal
+all: controller kubeseal2
 
 generate: $(GO_FILES)
 	$(GO) generate $(GO_PACKAGES)
@@ -48,8 +48,8 @@ generate: $(GO_FILES)
 controller: $(GO_FILES)
 	$(GO) build -o $@ $(GO_FLAGS) -ldflags "$(GO_LD_FLAGS)" ./cmd/controller
 
-kubeseal: $(GO_FILES)
-	$(GO) build -o $@ $(GO_FLAGS) -ldflags "$(GO_LD_FLAGS)" ./cmd/kubeseal
+kubeseal2: $(GO_FILES)
+	$(GO) build -o $@ $(GO_FLAGS) -ldflags "$(GO_LD_FLAGS)" ./cmd/kubeseal2
 
 
 define binary
@@ -59,19 +59,19 @@ endef
 
 define binaries
 $(call binary,controller,$1,$2)
-$(call binary,kubeseal,$1,$2)
+$(call binary,kubeseal2,$1,$2)
 endef
 
 $(eval $(call binaries,linux,amd64))
 $(eval $(call binaries,linux,arm64))
 $(eval $(call binaries,linux,arm))
 $(eval $(call binaries,darwin,amd64))
-$(eval $(call binary,kubeseal,windows,amd64))
+$(eval $(call binary,kubeseal2,windows,amd64))
 
 controller-static: controller-static-$(GOOS)-$(GOARCH)
 	cp $< $@
 
-kubeseal-static: kubeseal-static-$(GOOS)-$(GOARCH)
+kubeseal2-static: kubeseal2-static-$(GOOS)-$(GOARCH)
 	cp $< $@
 
 CONTROLLER_IMAGE_PER_ARCH =
@@ -144,9 +144,9 @@ controller-podmonitor.yaml: controller.jsonnet controller-norbac.jsonnet schema-
 test:
 	$(GO) test $(GO_FLAGS) $(GO_PACKAGES)
 
-integrationtest: kubeseal controller
+integrationtest: kubeseal2 controller
 	# Assumes a k8s cluster exists, with controller already installed
-	$(GINKGO) -tags 'integration' integration -- -kubeconfig $(KUBECONFIG) -kubeseal-bin $(abspath $<) -controller-bin $(abspath $(word 2,$^))
+	$(GINKGO) -tags 'integration' integration -- -kubeconfig $(KUBECONFIG) -kubeseal2-bin $(abspath $<) -controller-bin $(abspath $(word 2,$^))
 
 vet:
 	# known issue:
@@ -157,7 +157,7 @@ fmt:
 	$(GOFMT) -s -w $(GO_FILES)
 
 clean:
-	$(RM) ./controller ./kubeseal
+	$(RM) ./controller ./kubeseal2
 	$(RM) *-static*
 	$(RM) controller*.yaml
 	$(RM) controller.image*
@@ -165,4 +165,4 @@ clean:
 	$(RM) controller-manifest-*
 	$(RM) push-controller-image
 
-.PHONY: all kubeseal controller test clean vet fmt
+.PHONY: all kubeseal2 controller test clean vet fmt

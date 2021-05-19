@@ -10,7 +10,7 @@
         // Caveats:
         // - Probably better to leave app deploy breakages to the app or CD systems monitoring.
         // - Potentially noisy. Controller attempts to unseal 5 times, so if it exceeds on the 4th attempt then all is fine but this alert will trigger.
-        // - Usage of an invalid cert.pem with kubeseal will trigger this alert, it would be better to distinguish alerts due to controller or user
+        // - Usage of an invalid cert.pem with kubeseal2 will trigger this alert, it would be better to distinguish alerts due to controller or user
         // - 'for' clause not used because we are unlikely to have a sustained rate of errors unless there is a LOT of secret churn in cluster.
         // Rob Ewaschuk - My Philosophy on Alerting: https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit
         {

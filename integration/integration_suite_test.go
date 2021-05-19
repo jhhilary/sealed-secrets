@@ -30,7 +30,7 @@ import (
 )
 
 var kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
-var kubesealBin = flag.String("kubeseal-bin", "kubeseal", "path to kubeseal executable under test")
+var kubeseal2Bin = flag.String("kubeseal2-bin", "kubeseal2", "path to kubeseal2 executable under test")
 var controllerBin = flag.String("controller-bin", "controller", "path to controller executable under test")
 
 func clusterConfigOrDie() *rest.Config {
@@ -80,14 +80,14 @@ func containsString(haystack []string, needle string) bool {
 	return false
 }
 
-func runKubeseal(flags []string, input io.Reader, output io.Writer, opts ...runAppOpt) error {
+func runkubeseal2(flags []string, input io.Reader, output io.Writer, opts ...runAppOpt) error {
 	args := []string{}
 	if *kubeconfig != "" && !containsString(flags, "--kubeconfig") {
 		args = append(args, "--kubeconfig", *kubeconfig)
 	}
 	args = append(args, flags...)
 
-	return runApp(*kubesealBin, args, input, output, opts...)
+	return runApp(*kubeseal2Bin, args, input, output, opts...)
 }
 
 type interruptableReader struct {
@@ -156,22 +156,22 @@ func runApp(app string, flags []string, input io.Reader, output io.Writer, opts 
 	return cmd.Run()
 }
 
-func runKubesealWith(flags []string, input runtime.Object, opts ...runAppOpt) (runtime.Object, error) {
+func runkubeseal2With(flags []string, input runtime.Object, opts ...runAppOpt) (runtime.Object, error) {
 	enc := scheme.Codecs.LegacyCodec(v1.SchemeGroupVersion)
 	indata, err := runtime.Encode(enc, input)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Fprintf(GinkgoWriter, "kubeseal input:\n%s\n", indata)
+	fmt.Fprintf(GinkgoWriter, "kubeseal2 input:\n%s\n", indata)
 
 	outbuf := bytes.Buffer{}
 
-	if err := runKubeseal(flags, bytes.NewReader(indata), &outbuf, opts...); err != nil {
+	if err := runkubeseal2(flags, bytes.NewReader(indata), &outbuf, opts...); err != nil {
 		return nil, err
 	}
 
-	fmt.Fprintf(GinkgoWriter, "kubeseal output:\n%s\n", outbuf.Bytes())
+	fmt.Fprintf(GinkgoWriter, "kubeseal2 output:\n%s\n", outbuf.Bytes())
 
 	outputObj, err := runtime.Decode(scheme.Codecs.UniversalDecoder(ssv1alpha1.SchemeGroupVersion), outbuf.Bytes())
 	if err != nil {

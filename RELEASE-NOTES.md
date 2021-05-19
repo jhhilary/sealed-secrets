@@ -92,7 +92,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only a change in the `kubeseal` binary since v0.12.2. No controller nor k8s manifest changes.
+This release contains only a change in the `kubeseal2` binary since v0.12.2. No controller nor k8s manifest changes.
 
 ## Changelog
 
@@ -105,12 +105,12 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 ## Announcements
 
 This release contains important changes in manifests since v0.12.1.
-It also contains a minor fix in kubeseal client.
+It also contains a minor fix in kubeseal2 client.
 
 Previously, users upgrading to v0.12.x from previous versions would experience:
 
 ```
-The Deployment "sealed-secrets-controller" is invalid: spec.selector: Invalid value: v1.LabelSelector{MatchLabels:map[string]string{"app.kubernetes.io/managed-by":"jsonnet", "app.kubernetes.io/name":"kubeseal", "app.kubernetes.io/part-of":"kubeseal", "app.kubernetes.io/version":"v0.12.1", "name":"sealed-secrets-controller"}, MatchExpressions:[]v1.LabelSelectorRequirement(nil)}: field is immutable
+The Deployment "sealed-secrets-controller" is invalid: spec.selector: Invalid value: v1.LabelSelector{MatchLabels:map[string]string{"app.kubernetes.io/managed-by":"jsonnet", "app.kubernetes.io/name":"kubeseal2", "app.kubernetes.io/part-of":"kubeseal2", "app.kubernetes.io/version":"v0.12.1", "name":"sealed-secrets-controller"}, MatchExpressions:[]v1.LabelSelectorRequirement(nil)}: field is immutable
 ```
 
 This was caused by a bug in our official yaml manifests introduced in v0.12.0. Users of the Helm chart were unaffected.
@@ -130,7 +130,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains changes in `kubeseal` and `controller` binaries but no changes in manifests since v0.12.0.
+This release contains changes in `kubeseal2` and `controller` binaries but no changes in manifests since v0.12.0.
 
 This release is a fixup release that turns off the status update feature introduced in v0.12.0. Several users have reported
 a severe bug (an infinite feedback loop where the controller kept updating sealedsecrets and consuming lots of CPU).
@@ -148,7 +148,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains changes in `kubeseal` and `controller` binaries as well as a minor change to the k8s manifest (see [#381](https://github.com/bitnami-labs/sealed-secrets/issues/381)); keep that in mind if you don't rely on the official k8s manifests, including the community-maintained Helm chart.
+This release contains changes in `kubeseal2` and `controller` binaries as well as a minor change to the k8s manifest (see [#381](https://github.com/bitnami-labs/sealed-secrets/issues/381)); keep that in mind if you don't rely on the official k8s manifests, including the community-maintained Helm chart.
 
 # Status field
 
@@ -164,7 +164,7 @@ The sealed secrets controller now exports prometheus metrics. See also [contrib/
 * Update Status field ([#346](https://github.com/bitnami-labs/sealed-secrets/issues/346))
 * Add prometheus metrics ([#177](https://github.com/bitnami-labs/sealed-secrets/issues/177))
 * Upgrade k8s client-go to v0.16.8 ([#380](https://github.com/bitnami-labs/sealed-secrets/issues/380))
-* kubeseal no longer emits empty `status: {}` field ([#383](https://github.com/bitnami-labs/sealed-secrets/issues/383))
+* kubeseal2 no longer emits empty `status: {}` field ([#383](https://github.com/bitnami-labs/sealed-secrets/issues/383))
 
 The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secrets/milestone/16?closed=1
 
@@ -172,14 +172,14 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in kubeseal binary (no k8s manifest changes required).
+This release contains only changes in kubeseal2 binary (no k8s manifest changes required).
 
 ### For those who choose the name and namespace after sealing the secret
 
-Creating secrets with namespace-wide and cluster-wide scopes is now easier as it no longer requires manually adding annotations in the input Secret before passing it to `kubeseal`. This was often the root cause of many support requests. Now all you need to do is to:
+Creating secrets with namespace-wide and cluster-wide scopes is now easier as it no longer requires manually adding annotations in the input Secret before passing it to `kubeseal2`. This was often the root cause of many support requests. Now all you need to do is to:
 
 ```
-$ kubeseal --scope namespace-wide <input-secret.yaml >output-sealed-secret.json
+$ kubeseal2 --scope namespace-wide <input-secret.yaml >output-sealed-secret.json
 ```
 
 ## Changelog
@@ -206,7 +206,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in Linux `kubeseal-arm` and `kubeseal-arm64` binaries. There are no changes in the docker images, nor in the `x86_64` binaries for any of the supported OS.
+This release contains only changes in Linux `kubeseal2-arm` and `kubeseal2-arm64` binaries. There are no changes in the docker images, nor in the `x86_64` binaries for any of the supported OS.
 
 ## Changelog
 
@@ -218,7 +218,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains  changes in `kubeseal` and `controller` binaries as well as a minor change to the k8s manifest (see [#338](https://github.com/bitnami-labs/sealed-secrets/issues/338)); keep that in mind if you don't rely on the official k8s manifests, including the community-maintained Helm chart.
+This release contains  changes in `kubeseal2` and `controller` binaries as well as a minor change to the k8s manifest (see [#338](https://github.com/bitnami-labs/sealed-secrets/issues/338)); keep that in mind if you don't rely on the official k8s manifests, including the community-maintained Helm chart.
 
 ### Allow overwriting existing secrets
 
@@ -244,7 +244,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in `kubeseal` and `controller` binaries (no k8s manifest changes required).
+This release contains only changes in `kubeseal2` and `controller` binaries (no k8s manifest changes required).
 
 ### Preliminary support for running multiple controllers
 
@@ -268,12 +268,12 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in `kubeseal` binary (no k8s manifest changes required).
+This release contains only changes in `kubeseal2` binary (no k8s manifest changes required).
 
 ## Changelog
 
 * Improve error reporting in case of missing kubeconfig when inferring namespace ([#313](https://github.com/bitnami-labs/sealed-secrets/issues/313))
-* Teach kubeseal to decrypt using backed up secrets ([#312](https://github.com/bitnami-labs/sealed-secrets/issues/312))
+* Teach kubeseal2 to decrypt using backed up secrets ([#312](https://github.com/bitnami-labs/sealed-secrets/issues/312))
 
 The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secrets/milestone/11?closed=1
 
@@ -281,7 +281,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in `kubeseal` and `controller` binaries (no k8s manifest changes required).
+This release contains only changes in `kubeseal2` and `controller` binaries (no k8s manifest changes required).
 
 ## Changelog
 
@@ -294,7 +294,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in `kubeseal` and `controller` binaries (no k8s manifest changes required).
+This release contains only changes in `kubeseal2` and `controller` binaries (no k8s manifest changes required).
 
 ## Changelog
 
@@ -307,7 +307,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 
 ## Announcements
 
-This release contains only changes in `kubeseal` and `controller` binaries (no k8s manifest changes required).
+This release contains only changes in `kubeseal2` and `controller` binaries (no k8s manifest changes required).
 
 ### Periodic key renewal and offline certificates
 
@@ -343,20 +343,20 @@ Existing sealed-secrets resources will still be decrypted until the keys are man
 
 You can read more about this feature and the problem of **secret rotation** and how it interacts with Sealed Secrets in this [README section](https://github.com/bitnami-labs/sealed-secrets#secret-rotation) or in the original GH issue #137.
 
-This feature alone is not technically a breaking change for people who use the offline workflow with `kubeseal --cert`, since old keys are not rotated out automatically. Users would be required to update their offline certs only when they purge old keys manually (we might introduce automatic purging in the future).
+This feature alone is not technically a breaking change for people who use the offline workflow with `kubeseal2 --cert`, since old keys are not rotated out automatically. Users would be required to update their offline certs only when they purge old keys manually (we might introduce automatic purging in the future).
 
 That said, to reap the benefits of key renewal, users of the offline workflow are encouraged to update their offline certificates every time a new key is generated (by default every 30 days).
 
 ### Pre-v0.7.0 clients
 
-If you are using kubeseal clients older than v0.7.0, please upgrade. Since this release the controller
+If you are using kubeseal2 clients older than v0.7.0, please upgrade. Since this release the controller
 will no longer accept the "v1" format of the encrypted "data" field and instead it will only support the
 "encryptedData" field.
 
 If you have old sealed secret resources lying around, you can easily upgrade them by invoking:
 
 ```bash
-kubeseal --re-encrypt <old.yaml >new.yaml
+kubeseal2 --re-encrypt <old.yaml >new.yaml
 ```
 
 ### Update items
@@ -367,9 +367,9 @@ Now `kubectl` has learned how to update an existing secret, whilist preserving t
 
 ```bash
 $ kubectl create secret generic mysecret --dry-run -o json --from-file=foo=/tmp/foo \
-  | kubeseal >sealed.json
+  | kubeseal2 >sealed.json
 $ kubectl create secret generic mysecret --dry-run -o json --from-file=bar=/tmp/bar \
-  | kubeseal --merge-into sealed.json
+  | kubeseal2 --merge-into sealed.json
 ```
 
 ## Changelog
@@ -391,7 +391,7 @@ The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secre
 ## Announcement
 
 This release contains a fix for a possible secret leak that can happen when sealing existing secrets that have been retrieved from a cluster (e.g. with `kubectl get`) where they have been created with `kubectl apply` (as opposed to `kubectl create`).
-This potential problem has been introduced v0.8.0 when kubeseal learned how to preserve annotations and labels.
+This potential problem has been introduced v0.8.0 when kubeseal2 learned how to preserve annotations and labels.
 
 Please check your existing sealed secret sources for any annotation `kubectl.kubernetes.io/last-applied-configuration`, because that annotation would contain your original secrets in clear.
 
@@ -430,7 +430,7 @@ The main improvements in this release are:
 * fix bug with OwnerReferences handling ([#127](https://github.com/bitnami-labs/sealed-secrets/issues/127))
 * EKS support; client-go version bump to release-7.0 ([#110](https://github.com/bitnami-labs/sealed-secrets/issues/110))
 * Instructions to run on GKE when user is not cluster-admin ([#111](https://github.com/bitnami-labs/sealed-secrets/issues/111))
-* Windows binary of kubeseal ([#85](https://github.com/bitnami-labs/sealed-secrets/issues/85))
+* Windows binary of kubeseal2 ([#85](https://github.com/bitnami-labs/sealed-secrets/issues/85))
 * Internal codebase modernization (e.g. switch to Go modules)
 
 The full Changelog is maintained in https://github.com/bitnami-labs/sealed-secrets/milestone/3?closed=1
@@ -447,8 +447,8 @@ Big change for this release is the switch to **per-key encrypted values**.
   - New keys/values can be added to the SealedSecret without re-encrypting (or even having access to!) the existing values.
   - Note that (as before) the encrypted values are still tied to the namespace/name of the enclosing Secret/SealedSecret, so can't be moved to another Secret.
    (The [cluster-wide annotation](https://github.com/bitnami-labs/sealed-secrets/blob/bda0af6a6a8abebc9ff359dd2e5e22d54cb40798/pkg/apis/sealed-secrets/v1alpha1/types.go#L16)  _does_ allow this, with the corresponding caveats, as before)
-- The `kubeseal` tool does not yet have an option to output _just_ a single value, but you can safely mix+match the individual values from `kubeseal` output with an existing SealedSecret.  Improving `kubeseal` support for this feature is still an open action item.
-- Existing/older "all-in-one" SealedSecrets are declared deprecated, but will continue to be supported by the controller for the foreseeable future.  New invocations of the `kubeseal` tool now produce per-key encrypted output - if you need to produce the older format, just use an older `kubeseal`.  Please raise a github issue if you have a use-case that requires supporting "all-in-one" SealedSecrets going forward.
+- The `kubeseal2` tool does not yet have an option to output _just_ a single value, but you can safely mix+match the individual values from `kubeseal2` output with an existing SealedSecret.  Improving `kubeseal2` support for this feature is still an open action item.
+- Existing/older "all-in-one" SealedSecrets are declared deprecated, but will continue to be supported by the controller for the foreseeable future.  New invocations of the `kubeseal2` tool now produce per-key encrypted output - if you need to produce the older format, just use an older `kubeseal2`.  Please raise a github issue if you have a use-case that requires supporting "all-in-one" SealedSecrets going forward.
 - Note the CRD schema used for server-side validation in k8s >=1.9 has been temporarily removed, because it was unable to support the new per-key structure correctly (see [kubernetes/kubernetes#59485](https://github.com/kubernetes/kubernetes/issues/59485)).
 - Huge thanks to @sullerandras for the code and his persistence in getting this merged!
 
@@ -466,8 +466,8 @@ Big change for this release is the switch to **per-key encrypted values**.
 **Note:** this version moves TPR/CRD definition into a separate file.  To install, you need `controller.yaml` *and* either `sealedsecret-tpr.yaml` or `sealedsecret-crd.yaml`
 
 - Add CRD definition and TPR->CRD migration documentation
-- Add `kubeseal --fetch-cert` to dump server cert to stdout, for later offline use with `kubeseal --cert`
-- Better sanitisation of input object to `kubeseal`
+- Add `kubeseal2 --fetch-cert` to dump server cert to stdout, for later offline use with `kubeseal2 --cert`
+- Better sanitisation of input object to `kubeseal2`
 
 (v0.5.1 fixes a travis/github release issue with v0.5.0)
 
@@ -476,8 +476,8 @@ Big change for this release is the switch to **per-key encrypted values**.
 # v0.4.0
 
 - controller: deployment security hardening: non-root uid and read-only rootfs
-- `kubeseal`: Include oidc and gcp auth provider plugins
-- `kubeseal`: Add support for YAML output
+- `kubeseal2`: Include oidc and gcp auth provider plugins
+- `kubeseal2`: Add support for YAML output
 
 # v0.3.1
 
@@ -489,7 +489,7 @@ Big change for this release is the switch to **per-key encrypted values**.
 Rename everything to better represent project scope.  Better to do this early (now) and apologies for the disruption.
 
 - Rename repo and golang import path -> `bitnami/sealed-secrets`
-- Rename cli tool -> `kubeseal`
+- Rename cli tool -> `kubeseal2`
 - Rename `SealedSecret` apiGroup -> `bitnami.com`
 
 # v0.2.1

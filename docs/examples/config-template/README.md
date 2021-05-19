@@ -20,5 +20,5 @@ for `server1` you can run:
 
 ```
 echo -n baz | kubectl create secret generic example --dry-run --from-file=server1=/dev/stdin -o json \
-  | kubeseal -o yaml --merge-into sealedsecret.yaml
+  | kubeseal2 -o yaml --merge-into sealedsecret.yaml
 ```

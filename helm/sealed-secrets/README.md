@@ -39,20 +39,20 @@ $ helm2 delete [--purge] my-release
 $ helm3 uninstall my-release -n kube-system
 ```
 
-## Using kubeseal
+## Using kubeseal2
 
-Install the kubeseal CLI by downloading the binary from [sealed-secrets/releases](https://github.com/bitnami-labs/sealed-secrets/releases).
+Install the kubeseal2 CLI by downloading the binary from [sealed-secrets/releases](https://github.com/bitnami-labs/sealed-secrets/releases).
 
 Fetch the public key by passing the release name and namespace:
 
 ```bash
-kubeseal --fetch-cert \
+kubeseal2 --fetch-cert \
 --controller-name=my-release \
 --controller-namespace=my-release-namespace \
 > pub-cert.pem
 ```
 
-Read about kubeseal usage on [sealed-secrets docs](https://github.com/bitnami-labs/sealed-secrets#usage).
+Read about kubeseal2 usage on [sealed-secrets docs](https://github.com/bitnami-labs/sealed-secrets#usage).
 
 ## Configuration
 

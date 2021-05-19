@@ -54,7 +54,7 @@ controller {
           'services/proxy',
         ],
         resourceNames: [
-          'http:sealed-secrets-controller:',  // kubeseal uses net.JoinSchemeNamePort when crafting proxy subresource URLs
+          'http:sealed-secrets-controller:',  // kubeseal2 uses net.JoinSchemeNamePort when crafting proxy subresource URLs
           'sealed-secrets-controller',  // but often services are referred by name only, let's not make it unnecessarily cryptic
         ],
         verbs: [

@@ -14,9 +14,9 @@
 .glide/
 
 /controller
-/kubeseal
-/kubeseal-arm
-/kubeseal-arm64
+/kubeseal2
+/kubeseal2-arm
+/kubeseal2-arm64
 
 /controller.image
 /controller.image.*

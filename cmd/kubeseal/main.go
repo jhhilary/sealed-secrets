@@ -598,7 +598,7 @@ func run(w io.Writer, inputFileName, outputFileName, secretName, controllerNs, c
 	}
 
 	if printVersion {
-		fmt.Fprintf(w, "kubeseal version: %s\n", VERSION)
+		fmt.Fprintf(w, "kubeseal2 version: %s\n", VERSION)
 		return nil
 	}
 

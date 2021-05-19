@@ -670,7 +670,7 @@ func TestVersion(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if got, want := buf.String(), "kubeseal version: UNKNOWN\n"; got != want {
+	if got, want := buf.String(), "kubeseal2 version: UNKNOWN\n"; got != want {
 		t.Errorf("got: %q, want: %q", got, want)
 	}
 }

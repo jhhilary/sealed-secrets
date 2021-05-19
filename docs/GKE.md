@@ -11,7 +11,7 @@ kubectl create clusterrolebinding $USER-cluster-admin-binding --clusterrole=clus
 
 # Private GKE clusters
 
-If you are using a **private GKE cluster**, `kubeseal` won't be able to fetch the public key from the controller
+If you are using a **private GKE cluster**, `kubeseal2` won't be able to fetch the public key from the controller
 because there is firewall that prevents the master to talk directly to the nodes.
 
 There are currently two workarounds:
@@ -19,19 +19,19 @@ There are currently two workarounds:
 ## Offline sealing
 
 If you have the public key for your controller, you can seal secrets without talking to the controller.
-Normally `kubeseal --fetch-cert` can be used to obtain the certificate for later use, but in this case the firewall prevents us from doing it.
+Normally `kubeseal2 --fetch-cert` can be used to obtain the certificate for later use, but in this case the firewall prevents us from doing it.
 
 The controller outputs the certificate to the logs so you can copy paste it from there.
 
 Once you have the cert this is how you seal secrets:
 
 ```bash
-kubeseal --cert=cert.pem <secret.yaml
+kubeseal2 --cert=cert.pem <secret.yaml
 ```
 
 ## Master-to-Node firewall
 
-You are required to create a Master-to-Node firewall rule to allow GKE to communicate to the kubeseal container endpoint port tcp/8080.
+You are required to create a Master-to-Node firewall rule to allow GKE to communicate to the kubeseal2 container endpoint port tcp/8080.
 
 ```bash
 CLUSTER_NAME=foo-cluster
@@ -75,7 +75,7 @@ echo $MASTER_IPV4_CIDR $NETWORK $NETWORK_TARGET_TAG
 Create the firewall rule.
 
 ```bash
-gcloud compute firewall-rules create gke-to-kubeseal-8080 \
+gcloud compute firewall-rules create gke-to-kubeseal2-8080 \
   --network "$NETWORK" \
   --allow "tcp:8080" \
   --source-ranges "$MASTER_IPV4_CIDR" \

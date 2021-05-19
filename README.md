@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/badge/install-docs-brightgreen.svg)](#Installation)
 [![](https://img.shields.io/github/release/bitnami-labs/sealed-secrets.svg)](https://github.com/bitnami-labs/sealed-secrets/releases/latest)
-[![](https://img.shields.io/homebrew/v/kubeseal)](https://formulae.brew.sh/formula/kubeseal)
+[![](https://img.shields.io/homebrew/v/kubeseal2)](https://formulae.brew.sh/formula/kubeseal2)
 [![](https://img.shields.io/github/v/release/bitnami-labs/sealed-secrets?include_prereleases&label=helm&sort=semver)](https://github.com/bitnami-labs/sealed-secrets/releases)
 [![Build Status](https://travis-ci.org/bitnami-labs/sealed-secrets.svg?branch=master)](https://travis-ci.org/bitnami-labs/sealed-secrets)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bitnami-labs/sealed-secrets)](https://goreportcard.com/report/github.com/bitnami-labs/sealed-secrets)
@@ -51,10 +51,10 @@ original Secret from the SealedSecret.
   - [Will you still be able to decrypt if you no longer have access to your cluster?](#will-you-still-be-able-to-decrypt-if-you-no-longer-have-access-to-your-cluster)
   - [How can I do a backup of my SealedSecrets?](#how-can-i-do-a-backup-of-my-sealedsecrets)
   - [Can I decrypt my secrets offline with a backup key?](#can-i-decrypt-my-secrets-offline-with-a-backup-key)
-  - [What flags are available for kubeseal?](#what-flags-are-available-for-kubeseal)
+  - [What flags are available for kubeseal2?](#what-flags-are-available-for-kubeseal2)
   - [How do I update parts of JSON/YAML/TOML.. file encrypted with sealed secrets?](#how-do-i-update-parts-of-jsonyamltoml-file-encrypted-with-sealed-secrets)
   - [Can I bring my own (pre-generated) certificates?](#can-i-bring-my-own-pre-generated-certificates)
-  - [How to use kubeseal if the controller is not running within the `kube-system` namespace?](#how-to-use-kubeseal-if-the-controller-is-not-running-within-the-kube-system-namespace)
+  - [How to use kubeseal2 if the controller is not running within the `kube-system` namespace?](#how-to-use-kubeseal2-if-the-controller-is-not-running-within-the-kube-system-namespace)
 - [Community](#community)
   - [Related projects](#related-projects)
 
@@ -65,9 +65,9 @@ original Secret from the SealedSecret.
 Sealed Secrets is composed of two parts:
 
 * A cluster-side controller / operator
-* A client-side utility: `kubeseal`
+* A client-side utility: `kubeseal2`
 
-The `kubeseal` utility uses asymmetric crypto to encrypt secrets that only the controller can decrypt.
+The `kubeseal2` utility uses asymmetric crypto to encrypt secrets that only the controller can decrypt.
 
 These encrypted secrets are encoded in a `SealedSecret` resource, which you can see as a recipe for creating
 a secret. Here is how it looks:
@@ -163,11 +163,11 @@ it will be updated and deleted whenever the `SealedSecret` object gets updated o
 ### Public key / Certificate
 
 The key certificate (public key portion) is used for sealing secrets,
-and needs to be available wherever `kubeseal` is going to be
+and needs to be available wherever `kubeseal2` is going to be
 used. The certificate is not secret information, although you need to
 ensure you are using the correct one.
 
-`kubeseal` will fetch the certificate from the controller at runtime
+`kubeseal2` will fetch the certificate from the controller at runtime
 (requires secure access to the Kubernetes API server), which is
 convenient for interactive use, but it's known to be brittle when users
 have clusters with special configurations such as [private GKE clusters](docs/GKE.md#private-gke-clusters) that have
@@ -175,15 +175,15 @@ firewalls between master and nodes.
 
 An alternative workflow
 is to store the certificate somewhere (e.g. local disk) with
-`kubeseal --fetch-cert >mycert.pem`,
-and use it offline with `kubeseal --cert mycert.pem`.
+`kubeseal2 --fetch-cert >mycert.pem`,
+and use it offline with `kubeseal2 --cert mycert.pem`.
 The certificate is also printed to the controller log on startup.
 
 Since v0.9.x certificates get automatically renewed every 30 days. It's good practice that you and your team
-update your offline certificate periodically. To help you with that, since v0.9.2 `kubeseal` accepts URLs too. You can setup your internal automation to publish certificates somewhere you trust.
+update your offline certificate periodically. To help you with that, since v0.9.2 `kubeseal2` accepts URLs too. You can setup your internal automation to publish certificates somewhere you trust.
 
 ```bash
-kubeseal --cert https://your.intranet.company.com/sealed-secrets/your-cluster.cert
+kubeseal2 --cert https://your.intranet.company.com/sealed-secrets/your-cluster.cert
 ```
 
 It also recognizes the `SEALED_SECRETS_CERT` env var. (pro-tip: see also [direnv](https://github.com/direnv/direnv)).
@@ -229,10 +229,10 @@ In contrast to the restrictions of *name* and *namespace*, secret *items* (i.e. 
 The scope is selected with the `--scope` flag:
 
 ```sh
-$ kubeseal --scope cluster-wide <secret.yaml >sealed-secret.json
+$ kubeseal2 --scope cluster-wide <secret.yaml >sealed-secret.json
 ```
 
-It's also possible to request a scope via annotations in the input secret you pass to `kubeseal`:
+It's also possible to request a scope via annotations in the input secret you pass to `kubeseal2`:
 
 * `sealedsecrets.bitnami.com/namespace-wide: "true"` -> for `namespace-wide`
 * `sealedsecrets.bitnami.com/cluster-wide: "true"` -> for `cluster-wide`
@@ -299,18 +299,18 @@ NOTE: the sealed secrets operator is an independently maintained project, so ple
 
 ### Homebrew
 
-The `kubeseal` client is also available on [homebrew](https://formulae.brew.sh/formula/kubeseal):
+The `kubeseal2` client is also available on [homebrew](https://formulae.brew.sh/formula/kubeseal2):
 
 ```
-$ brew install kubeseal
+$ brew install kubeseal2
 ```
 
 ### MacPorts
 
-The `kubeseal` client is also available on [MacPorts](https://ports.macports.org/port/kubeseal/summary):
+The `kubeseal2` client is also available on [MacPorts](https://ports.macports.org/port/kubeseal2/summary):
 
 ```
-$ port install kubeseal
+$ port install kubeseal2
 ```
 
 ### Installation from source
@@ -319,7 +319,7 @@ If you just want the latest client tool, it can be installed into
 `$GOPATH/bin` with:
 
 ```sh
-% (cd /; GO111MODULE=on go get github.com/bitnami-labs/sealed-secrets/cmd/kubeseal@main)
+% (cd /; GO111MODULE=on go get github.com/bitnami-labs/sealed-secrets/cmd/kubeseal2@main)
 ```
 
 You can specify a release tag or a commit SHA instead of `main`.
@@ -339,7 +339,7 @@ $ echo -n bar | kubectl create secret generic mysecret --dry-run=client --from-f
 
 # This is the important bit:
 # (note default format is json!)
-$ kubeseal <mysecret.json >mysealedsecret.json
+$ kubeseal2 <mysecret.json >mysealedsecret.json
 
 # mysealedsecret.json is safe to upload to github, post to twitter,
 # etc.  Eventually:
@@ -353,7 +353,7 @@ Note the `SealedSecret` and `Secret` must have **the same namespace and
 name**. This is a feature to prevent other users on the same cluster
 from re-using your sealed secrets. See the [Scopes](#scopes) section for more info.
 
-`kubeseal` reads the namespace from the input secret, accepts an explicit `--namespace` arg, and uses
+`kubeseal2` reads the namespace from the input secret, accepts an explicit `--namespace` arg, and uses
 the `kubectl` default namespace (in that order). Any labels,
 annotations, etc on the original `Secret` are preserved, but not
 automatically reflected in the `SealedSecret`.
@@ -380,16 +380,16 @@ You can use the `--merge-into` command to update an existing sealed secrets if y
 
 ```sh
 $ echo -n bar | kubectl create secret generic mysecret --dry-run=client --from-file=foo=/dev/stdin -o json \
-  | kubeseal > mysealedsecret.json
+  | kubeseal2 > mysealedsecret.json
 $ echo -n baz | kubectl create secret generic mysecret --dry-run=client --from-file=bar=/dev/stdin -o json \
-  | kubeseal --merge-into mysealedsecret.json
+  | kubeseal2 --merge-into mysealedsecret.json
 ```
 
 ### Raw mode (experimental)
 
-Creating temporary Secret with the `kubectl` command, only to throw it away once piped to `kubeseal` can
+Creating temporary Secret with the `kubectl` command, only to throw it away once piped to `kubeseal2` can
 be a quite unfriendly user experience. We're working on an overhaul of the the CLI experience. In the meantime,
-we offer an alternative mode where kubeseal only cares about encrypting a value to stdout and it's your responsibility to put it inside a SealedSecret resource (not unlike any of the other k8s resources).
+we offer an alternative mode where kubeseal2 only cares about encrypting a value to stdout and it's your responsibility to put it inside a SealedSecret resource (not unlike any of the other k8s resources).
 
 It can also be useful as a building block for editor/IDE integrations.
 
@@ -397,11 +397,11 @@ The downside is that you have to be careful to be consistent with the sealing sc
 See [Scopes](#scopes):
 
 ```sh
-$ echo -n foo | kubeseal --raw --from-file=/dev/stdin --namespace bar --name mysecret
+$ echo -n foo | kubeseal2 --raw --from-file=/dev/stdin --namespace bar --name mysecret
 AgBChHUWLMx...
-$ echo -n foo | kubeseal --raw --from-file=/dev/stdin --namespace bar --scope namespace-wide
+$ echo -n foo | kubeseal2 --raw --from-file=/dev/stdin --namespace bar --scope namespace-wide
 AgAbbFNkM54...
-$ echo -n foo | kubeseal --raw --from-file=/dev/stdin --scope cluster-wide
+$ echo -n foo | kubeseal2 --raw --from-file=/dev/stdin --scope cluster-wide
 AgAjLKpIYV+...
 ```
 
@@ -421,7 +421,7 @@ TL;DR:
 
 Sealing keys are automatically renewed every 30 days. Which means a new sealing key is created and appended to the set of active sealing keys the controller can use to unseal Sealed Secret resources.
 
-The most recently created sealing key is the one used to seal new secrets when you use `kubeseal` and it's the one whose certificate is downloaded when you use `kubeseal --fetch-cert`.
+The most recently created sealing key is the one used to seal new secrets when you use `kubeseal2` and it's the one whose certificate is downloaded when you use `kubeseal2 --fetch-cert`.
 
 The renewal time of 30d is a reasonable default, but it can be tweaked as needed
 with the `--key-renew-period=<value>` flag for the command in the pod template of the sealed secret controller. The `value` field can be given as golang
@@ -476,7 +476,7 @@ The same logic applies to SealedSecrets. The ultimate goal is securing your actu
 
 You first need to ensure that new secrets don't get encrypted with that old compromised key (in the email analogy above that's: create a new keypair and give all your friends your new public key).
 
-The second logical step is to neutralize the damage, which depends on the nature of the secret. A simple example is a database password: if you accidentally leak your database password, the thing you're supposed to do is simply to change your database password (on the database; and revoke the old one!) *and* update the SealedSecret resource with the new password (i.e. running `kubeseal` again).
+The second logical step is to neutralize the damage, which depends on the nature of the secret. A simple example is a database password: if you accidentally leak your database password, the thing you're supposed to do is simply to change your database password (on the database; and revoke the old one!) *and* update the SealedSecret resource with the new password (i.e. running `kubeseal2` again).
 
 Both steps are described in the previous sections, albeit in a less verbose way. There is no shame in reading them again, now that you have a more in-depth grasp of the underlying rationale.
 
@@ -501,13 +501,13 @@ manual encryption/decryption if need be.
 Before you can get rid of some old sealing keys you need to re-encrypt your SealedSecrets with the latest private key.
 
 ```bash
-kubeseal --re-encrypt <my_sealed_secret.json >tmp.json \
+kubeseal2 --re-encrypt <my_sealed_secret.json >tmp.json \
   && mv tmp.json my_sealed_secret.json
 ```
 
 The invocation above will produce a new sealed secret file freshly encrypted with
 the latest key, without making the secrets leave the cluster to the client. You can then save that file
-in your version control system (`kubeseal --re-encrypt` doesn't update the in-cluster object).
+in your version control system (`kubeseal2 --re-encrypt` doesn't update the in-cluster object).
 
 Currently old keys are not garbage collected automatically.
 
@@ -540,7 +540,7 @@ To be able to develop on this project, you need to have the following tools inst
 * [kubecfg](https://github.com/bitnami/kubecfg)
 * Go
 
-To build the `kubeseal` and controller binaries, run:
+To build the `kubeseal2` and controller binaries, run:
 ```bash
 $ make
 ```
@@ -597,11 +597,11 @@ $ kubectl delete pod -n kube-system -l name=sealed-secrets-controller
 While treating sealed-secrets as long term storage system for secrets is not the recommended use case, some people
 do have a legitimate requirement for being able to recover secrets when the k8s cluster is down and restoring a backup into a new sealed-secrets controller deployment is not practical.
 
-If you have backed up one or more of your private keys (see previous question), you can use the `kubeseal --recovery-unseal --recovery-private-key file1.key,file2.key,...` command to decrypt a sealed secrets file.
+If you have backed up one or more of your private keys (see previous question), you can use the `kubeseal2 --recovery-unseal --recovery-private-key file1.key,file2.key,...` command to decrypt a sealed secrets file.
 
-### What flags are available for kubeseal?
+### What flags are available for kubeseal2?
 
-You can check the flags available using `kubeseal --help`.
+You can check the flags available using `kubeseal2 --help`.
 
 ### How do I update parts of JSON/YAML/TOML.. file encrypted with sealed secrets?
 
@@ -617,21 +617,21 @@ Since this is a common problem, especially when dealing with legacy applications
 Yes, you can provide the controller with your own certificates so it will consume them.
 Please check [here](docs/bring-your-own-certificates.md) for a workaround.
 
-### How to use kubeseal if the controller is not running within the `kube-system` namespace?
+### How to use kubeseal2 if the controller is not running within the `kube-system` namespace?
 
 If you installed the controller in a different namespace than the default `kube-system`, you need to provide this namespace
-to the `kubeseal` commandline tool. There are two options: You can specify the namespace via the command line option
+to the `kubeseal2` commandline tool. There are two options: You can specify the namespace via the command line option
 `--controller-namespace <namespace>` or via the environment variable `SEALED_SECRETS_CONTROLLER_NAMESPACE`.
 
 Example:
 
 ```sh
 # Provide the namespace via the command line option
-$ kubeseal --controller-namespace sealed-secrets <mysecret.json >mysealedsecret.json
+$ kubeseal2 --controller-namespace sealed-secrets <mysecret.json >mysealedsecret.json
 
 # Provide the namespace via the environment variable
 $ export SEALED_SECRETS_CONTROLLER_NAMESPACE=sealed-secrets
-$ kubeseal <mysecret.json >mysealedsecret.json
+$ kubeseal2 <mysecret.json >mysealedsecret.json
 ```
 
 ## Community
@@ -642,4 +642,4 @@ Click [here](http://slack.k8s.io) to sign up to the Kubernetes Slack org.
 
 ### Related projects
 
-* Visual Studio Code extension: https://marketplace.visualstudio.com/items?itemName=codecontemplator.kubeseal
+* Visual Studio Code extension: https://marketplace.visualstudio.com/items?itemName=codecontemplator.kubeseal2

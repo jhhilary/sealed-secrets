@@ -642,14 +642,14 @@
   },
 
   // NB: datalines_ can be used to reduce boilerplate importstr as:
-  // kubectl get secret ... -ojson mysec | kubeseal | jq -r .spec.data > mysec-ssdata.txt
+  // kubectl get secret ... -ojson mysec | kubeseal2 | jq -r .spec.data > mysec-ssdata.txt
   //   datalines_: importstr "mysec-ssddata.txt"
   SealedSecret(name): $._Object("bitnami.com/v1alpha1", "SealedSecret", name) {
     spec: {
       data:
         if self.datalines_ != ""
         then std.join("", std.split(self.datalines_, "\n"))
-        else error "data or datalines_ required (output from: kubeseal | jq -r .spec.data)",
+        else error "data or datalines_ required (output from: kubeseal2 | jq -r .spec.data)",
       datalines_:: "",
     },
     assert std.base64Decode(self.spec.data) != "",

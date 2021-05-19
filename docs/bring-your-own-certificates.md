@@ -50,7 +50,7 @@ Now you can try to seal a secret with your own certificate, instead of using the
 ## Used your recently created public key to "seal" your secret:
 Use your own certificate (key) by using the `--cert` flag:
 ```bash
-kubeseal --cert "./${PUBLICKEY}" --scope cluster-wide < mysecret.yaml | kubectl apply -f-
+kubeseal2 --cert "./${PUBLICKEY}" --scope cluster-wide < mysecret.yaml | kubectl apply -f-
 ```
 
 ## We can see the secret has been unsealed succesfully:

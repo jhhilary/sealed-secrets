@@ -26,7 +26,7 @@ import (
 	certUtil "k8s.io/client-go/util/cert"
 )
 
-var _ = Describe("kubeseal", func() {
+var _ = Describe("kubeseal2", func() {
 	var c corev1.CoreV1Interface
 	const secretName = "testSecret"
 	var ns string
@@ -86,7 +86,7 @@ var _ = Describe("kubeseal", func() {
 	})
 
 	JustBeforeEach(func() {
-		outobj, err := runKubesealWith(args, input)
+		outobj, err := runkubeseal2With(args, input)
 		Expect(err).NotTo(HaveOccurred())
 		ss = outobj.(*ssv1alpha1.SealedSecret)
 	})
@@ -157,7 +157,7 @@ var _ = Describe("kubeseal", func() {
 
 		BeforeEach(func() {
 			var err error
-			certfile, err = ioutil.TempFile("", "kubeseal-test")
+			certfile, err = ioutil.TempFile("", "kubeseal2-test")
 			Expect(err).NotTo(HaveOccurred())
 
 			for _, cert := range certs {
@@ -182,7 +182,7 @@ var _ = Describe("kubeseal", func() {
 	})
 })
 
-var _ = Describe("kubeseal --fetch-cert", func() {
+var _ = Describe("kubeseal2 --fetch-cert", func() {
 	var c corev1.CoreV1Interface
 	var input io.Reader
 	var output *bytes.Buffer
@@ -195,7 +195,7 @@ var _ = Describe("kubeseal --fetch-cert", func() {
 		output = &bytes.Buffer{}
 	})
 	JustBeforeEach(func() {
-		err := runKubeseal(args, input, output)
+		err := runkubeseal2(args, input, output)
 		Expect(err).NotTo(HaveOccurred())
 	})
 
@@ -208,7 +208,7 @@ var _ = Describe("kubeseal --fetch-cert", func() {
 	})
 })
 
-var _ = Describe("kubeseal --version", func() {
+var _ = Describe("kubeseal2 --version", func() {
 	var input io.Reader
 	var output *bytes.Buffer
 	var args []string
@@ -219,16 +219,16 @@ var _ = Describe("kubeseal --version", func() {
 	})
 
 	JustBeforeEach(func() {
-		err := runKubeseal(args, input, output)
+		err := runkubeseal2(args, input, output)
 		Expect(err).NotTo(HaveOccurred())
 	})
 
 	It("should produce the version", func() {
-		Expect(output.String()).Should(MatchRegexp("^kubeseal version: (v[0-9]+\\.[0-9]+\\.[0-9]+|[0-9a-f]{40})(\\+dirty)?"))
+		Expect(output.String()).Should(MatchRegexp("^kubeseal2 version: (v[0-9]+\\.[0-9]+\\.[0-9]+|[0-9a-f]{40})(\\+dirty)?"))
 	})
 })
 
-var _ = Describe("kubeseal --verify", func() {
+var _ = Describe("kubeseal2 --verify", func() {
 	const secretName = "testSecret"
 	const testNs = "testverifyns"
 	var input io.Reader
@@ -252,7 +252,7 @@ var _ = Describe("kubeseal --verify", func() {
 				"foo": []byte("bar"),
 			},
 		}
-		outobj, err := runKubesealWith([]string{}, input)
+		outobj, err := runkubeseal2With([]string{}, input)
 		Expect(err).NotTo(HaveOccurred())
 		ss = outobj.(*ssv1alpha1.SealedSecret)
 	})
@@ -265,7 +265,7 @@ var _ = Describe("kubeseal --verify", func() {
 	})
 
 	JustBeforeEach(func() {
-		err = runKubeseal(args, input, output)
+		err = runkubeseal2(args, input, output)
 	})
 
 	Context("valid sealed secret", func() {
@@ -286,7 +286,7 @@ var _ = Describe("kubeseal --verify", func() {
 
 })
 
-var _ = Describe("kubeseal --cert", func() {
+var _ = Describe("kubeseal2 --cert", func() {
 	var input io.Reader
 	var output *bytes.Buffer
 	var args []string
@@ -297,7 +297,7 @@ var _ = Describe("kubeseal --cert", func() {
 	})
 
 	JustBeforeEach(func() {
-		err := runKubeseal(args, input, ioutil.Discard, runAppWithStderr(output))
+		err := runkubeseal2(args, input, ioutil.Discard, runAppWithStderr(output))
 		Expect(err).To(HaveOccurred())
 	})
 
@@ -306,7 +306,7 @@ var _ = Describe("kubeseal --cert", func() {
 	})
 })
 
-var _ = Describe("kubeseal --recovery-unseal", func() {
+var _ = Describe("kubeseal2 --recovery-unseal", func() {
 	const ns = "default"
 	const secretName = "testSecret"
 
@@ -331,7 +331,7 @@ var _ = Describe("kubeseal --recovery-unseal", func() {
 				"foo": []byte("bar"),
 			},
 		}
-		outobj, err := runKubesealWith([]string{}, input)
+		outobj, err := runkubeseal2With([]string{}, input)
 		Expect(err).NotTo(HaveOccurred())
 		ss = outobj.(*ssv1alpha1.SealedSecret)
 
@@ -363,7 +363,7 @@ var _ = Describe("kubeseal --recovery-unseal", func() {
 	})
 
 	JustBeforeEach(func() {
-		err = runKubeseal(args, bytes.NewReader(sealedSecretInput), stdout, runAppWithStderr(stderr))
+		err = runkubeseal2(args, bytes.NewReader(sealedSecretInput), stdout, runAppWithStderr(stderr))
 	})
 
 	Context("without --recovery-private-key", func() {
